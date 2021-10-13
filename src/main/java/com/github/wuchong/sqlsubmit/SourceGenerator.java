@@ -19,6 +19,8 @@
 package com.github.wuchong.sqlsubmit;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -34,7 +36,8 @@ public class SourceGenerator {
         }
         long delay = 1000_000 / speed; // 每条耗时多少毫秒
 
-        try (InputStream inputStream = SourceGenerator.class.getClassLoader().getResourceAsStream("user_behavior.log")) {
+        File file = new File("src/test/resources/");
+        try (InputStream inputStream = new FileInputStream(new File(file, "user_behavior.log"))) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             long start = System.nanoTime();
             while (reader.ready()) {

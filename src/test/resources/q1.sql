@@ -17,7 +17,7 @@ CREATE TABLE user_log (
     item_id VARCHAR,
     category_id VARCHAR,
     behavior VARCHAR,
-    ts TIMESTAMP
+    ts TIMESTAMP(3)
 ) WITH (
     'connector.type' = 'kafka',
     'connector.version' = 'universal',
