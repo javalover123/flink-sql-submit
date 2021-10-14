@@ -8,8 +8,9 @@ This is not convenient for walkthrough and demo. That's why I created a such a p
 1. Set your Flink and Kafka install path in `env.sh`
 2. Add your SQL scripts under `src/test/resources/` with `.sql` suffix, e.g, `q1.sql`
 3. Start all the service your job needed, including Flink, Kafka, and DataBases.
-3. Run your SQL via `./run.sh <sql-file-name>`, e.g. `./run.sh q1`
-4. If the terminal returns the following output, it means the job is submitted successfully.
+4. For q1.sql, first generate data and send to kafka(`./source-generator.sh`), run MySQL sql script `q1-mysql.sql`
+5. Run your SQL via `./run.sh <sql-file-name>`, e.g. `./run.sh q1`
+6. If the terminal returns the following output, it means the job is submitted successfully.
 
 ```
 Starting execution of program

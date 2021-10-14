@@ -22,6 +22,7 @@ import com.github.wuchong.sqlsubmit.cli.CliOptions;
 import com.github.wuchong.sqlsubmit.cli.CliOptionsParser;
 import com.github.wuchong.sqlsubmit.cli.SqlCommandParser;
 import com.github.wuchong.sqlsubmit.cli.SqlCommandParser.SqlCommandCall;
+import java.nio.file.Path;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.SqlParserException;
 import org.apache.flink.table.api.TableEnvironment;
@@ -55,12 +56,13 @@ public class SqlSubmit {
                 .inStreamingMode()
                 .build();
         this.tEnv = TableEnvironment.create(settings);
-        List<String> sql = Files.readAllLines(Paths.get(workSpace + "/" + sqlFilePath));
+        Path path = Paths.get(workSpace + "/" + sqlFilePath);
+        List<String> sql = Files.readAllLines(path);
         List<SqlCommandCall> calls = SqlCommandParser.parse(sql);
         for (SqlCommandCall call : calls) {
             callCommand(call);
         }
-        tEnv.execute("SQL Job");
+        tEnv.execute("SQL Job-" + path.getFileName());
     }
 
     // --------------------------------------------------------------------------------------------
