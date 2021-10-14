@@ -1,6 +1,6 @@
 # Flink SQL Submit
 
-Currently, Flink 1.9 doesn't support to submit a DDL statement in SQL CLI, and also doesn't support to submit a SQL script.
+Currently, Flink 1.13.2 doesn't support to submit a DDL statement in SQL CLI, and also doesn't support to submit a SQL script.
 This is not convenient for walkthrough and demo. That's why I created a such a project.
 
 ## How to use

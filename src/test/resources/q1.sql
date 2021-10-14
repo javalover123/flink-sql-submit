@@ -18,7 +18,7 @@ CREATE TABLE user_log (
     category_id VARCHAR,
     behavior VARCHAR,
     ts TIMESTAMP(3),
-    -- 声明 user_action_time 是事件时间属性，并且用 延迟 5 秒的策略来生成 watermark
+    -- 声明 ts 是事件时间属性，并且用 延迟 5 秒的策略来生成 watermark
     WATERMARK FOR ts AS ts - INTERVAL '5' SECOND
 ) WITH (
     'connector.type' = 'kafka',
