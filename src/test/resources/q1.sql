@@ -17,21 +17,17 @@ CREATE TABLE user_log (
     item_id VARCHAR,
     category_id VARCHAR,
     behavior VARCHAR,
-    ts TIMESTAMP(3),
+    ts TIMESTAMP_LTZ(3),
     -- 声明 ts 是事件时间属性，并且用 延迟 5 秒的策略来生成 watermark
     WATERMARK FOR ts AS ts - INTERVAL '5' SECOND
 ) WITH (
-    'connector.type' = 'kafka',
-    'connector.version' = 'universal',
-    'connector.topic' = 'user_behavior',
-    'connector.startup-mode' = 'earliest-offset',
-    'connector.properties.0.key' = 'zookeeper.connect',
-    'connector.properties.0.value' = 'localhost:2181',
-    'connector.properties.1.key' = 'bootstrap.servers',
-    'connector.properties.1.value' = 'localhost:9092',
-    'update-mode' = 'append',
-    'format.type' = 'json',
-    'format.derive-schema' = 'true'
+    'connector' = 'kafka',
+    'topic' = 'user_behavior',
+    'scan.startup.mode' = 'earliest-offset',
+    'properties.bootstrap.servers' = 'localhost:9092',
+    'properties.group.id' = 'flink',
+    'format' = 'json',
+    'json.timestamp-format.standard' = 'ISO-8601'
 );
 
 -- sink
