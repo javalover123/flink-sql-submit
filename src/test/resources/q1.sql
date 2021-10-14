@@ -17,7 +17,9 @@ CREATE TABLE user_log (
     item_id VARCHAR,
     category_id VARCHAR,
     behavior VARCHAR,
-    ts TIMESTAMP(3)
+    ts TIMESTAMP(3),
+    -- 声明 user_action_time 是事件时间属性，并且用 延迟 5 秒的策略来生成 watermark
+    WATERMARK FOR ts AS ts - INTERVAL '5' SECOND
 ) WITH (
     'connector.type' = 'kafka',
     'connector.version' = 'universal',
@@ -34,7 +36,7 @@ CREATE TABLE user_log (
 
 -- sink
 CREATE TABLE pvuv_sink (
-    dt VARCHAR,
+    dt TIMESTAMP(3),
     pv BIGINT,
     uv BIGINT
 ) WITH (
@@ -49,8 +51,8 @@ CREATE TABLE pvuv_sink (
 
 INSERT INTO pvuv_sink
 SELECT
-  DATE_FORMAT(ts, 'yyyy-MM-dd HH:00') dt,
+  tumble_start(ts, interval '1' minute) dt,
   COUNT(*) AS pv,
   COUNT(DISTINCT user_id) AS uv
 FROM user_log
-GROUP BY DATE_FORMAT(ts, 'yyyy-MM-dd HH:00');
+GROUP BY tumble(ts, interval '1' minute);
