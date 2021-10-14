@@ -19,4 +19,4 @@
 
 source "$(dirname "$0")"/common.sh
 
-$KAFKA_DIR/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic $1 --from-beginning
+$KAFKA_DIR/bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_SERVER --topic $1 --from-beginning

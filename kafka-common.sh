@@ -37,15 +37,15 @@ function create_kafka_json_source {
 }
 
 function create_kafka_topic {
-    $KAFKA_DIR/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor $1 --partitions $2 --topic $3
+    $KAFKA_DIR/bin/kafka-topics.sh --create --zookeeper $ZK_SERVER --replication-factor $1 --partitions $2 --topic $3
 }
 
 function drop_kafka_topic {
-    $KAFKA_DIR/bin/kafka-topics.sh --delete --zookeeper localhost:2181 --topic $1
+    $KAFKA_DIR/bin/kafka-topics.sh --delete --zookeeper $ZK_SERVER --topic $1
 }
 
 function send_messages_to_kafka {
-    echo -e $1 | $KAFKA_DIR/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic $2
+    echo -e $1 | $KAFKA_DIR/bin/kafka-console-producer.sh --broker-list $KAFKA_SERVER --topic $2
 }
 
 function start_kafka_cluster {
@@ -58,7 +58,7 @@ function start_kafka_cluster {
   $KAFKA_DIR/bin/kafka-server-start.sh -daemon $KAFKA_DIR/config/server.properties
 
   # zookeeper outputs the "Node does not exist" bit to stderr
-  while [[ $($KAFKA_DIR/bin/zookeeper-shell.sh localhost:2181 get /brokers/ids/0 2>&1) =~ .*Node\ does\ not\ exist.* ]]; do
+  while [[ $($KAFKA_DIR/bin/zookeeper-shell.sh $ZK_SERVER get /brokers/ids/0 2>&1) =~ .*Node\ does\ not\ exist.* ]]; do
     echo "Waiting for broker..."
     sleep 1
   done

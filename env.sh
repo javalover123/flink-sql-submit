@@ -17,5 +17,7 @@
 # limitations under the License.
 ################################################################################
 
-FLINK_DIR=/Users/wuchong/dev/install/flink-1.9.0
-KAFKA_DIR=/Users/wuchong/dev/install/kafka_2.11-2.2.0
+FLINK_DIR=/opt/flink-1.13.2
+KAFKA_DIR=/opt/kafka_2.12-2.8.0/
+KAFKA_SERVER=localhost:9092
+ZK_SERVER=localhost:2181
